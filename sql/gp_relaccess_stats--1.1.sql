@@ -1,4 +1,4 @@
-/* gp_relaccess_stats--1.0.sql */
+/* gp_relaccess_stats--1.1.sql */
 
 -- complain if script is sourced in psql, rather than via CREATE EXTENSION
 \echo Use "CREATE EXTENSION gp_relaccess_stats" to load this file. \quit
@@ -12,11 +12,11 @@ CREATE TABLE relaccess.relaccess_stats (
     last_writer_id Oid,
     last_read timestamptz,
     last_write timestamptz,
-    n_select_queries int,
-    n_insert_queries int,
-    n_update_queries int,
-    n_delete_queries int,
-    n_truncate_queries int
+    n_select_queries int8,
+    n_insert_queries int8,
+    n_update_queries int8,
+    n_delete_queries int8,
+    n_truncate_queries int8
 ) DISTRIBUTED BY (relid);
 
 CREATE FUNCTION relaccess.relaccess_stats_dump()

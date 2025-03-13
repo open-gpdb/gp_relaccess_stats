@@ -509,15 +509,15 @@ Datum relaccess_stats_from_dump(PG_FUNCTION_ARGS) {
                        -1 /* typmod */, 0 /* attdim */);
     TupleDescInitEntry(tupdesc, (AttrNumber)6, "last_write", TIMESTAMPTZOID,
                        -1 /* typmod */, 0 /* attdim */);
-    TupleDescInitEntry(tupdesc, (AttrNumber)7, "n_select_queries", INT4OID,
+    TupleDescInitEntry(tupdesc, (AttrNumber)7, "n_select_queries", INT8OID,
                        -1 /* typmod */, 0 /* attdim */);
-    TupleDescInitEntry(tupdesc, (AttrNumber)8, "n_insert_queries", INT4OID,
+    TupleDescInitEntry(tupdesc, (AttrNumber)8, "n_insert_queries", INT8OID,
                        -1 /* typmod */, 0 /* attdim */);
-    TupleDescInitEntry(tupdesc, (AttrNumber)9, "n_update_queries", INT4OID,
+    TupleDescInitEntry(tupdesc, (AttrNumber)9, "n_update_queries", INT8OID,
                        -1 /* typmod */, 0 /* attdim */);
-    TupleDescInitEntry(tupdesc, (AttrNumber)10, "n_delete_queries", INT4OID,
+    TupleDescInitEntry(tupdesc, (AttrNumber)10, "n_delete_queries", INT8OID,
                        -1 /* typmod */, 0 /* attdim */);
-    TupleDescInitEntry(tupdesc, (AttrNumber)11, "n_truncate_queries", INT4OID,
+    TupleDescInitEntry(tupdesc, (AttrNumber)11, "n_truncate_queries", INT8OID,
                        -1 /* typmod */, 0 /* attdim */);
     funcctx->tuple_desc = BlessTupleDesc(tupdesc);
     StringInfoData dump_file = get_dump_filename(MyDatabaseId);
@@ -556,11 +556,11 @@ Datum relaccess_stats_from_dump(PG_FUNCTION_ARGS) {
     values[3] = ObjectIdGetDatum(entry->last_writer_id);
     values[4] = TimestampTzGetDatum(entry->last_read);
     values[5] = TimestampTzGetDatum(entry->last_write);
-    values[6] = Int32GetDatum(entry->n_select);
-    values[7] = Int32GetDatum(entry->n_insert);
-    values[8] = Int32GetDatum(entry->n_update);
-    values[9] = Int32GetDatum(entry->n_delete);
-    values[10] = Int32GetDatum(entry->n_truncate);
+    values[6] = Int64GetDatum(entry->n_select);
+    values[7] = Int64GetDatum(entry->n_insert);
+    values[8] = Int64GetDatum(entry->n_update);
+    values[9] = Int64GetDatum(entry->n_delete);
+    values[10] = Int64GetDatum(entry->n_truncate);
     HeapTuple tuple = heap_form_tuple(funcctx->tuple_desc, values, nulls);
     Datum result = HeapTupleGetDatum(tuple);
     funcctx->user_fctx = stats_entries;
